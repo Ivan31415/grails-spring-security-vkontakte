@@ -1,16 +1,18 @@
 package com.gramant.grails.springsecurity.vkontakte
 
-import org.springframework.web.filter.GenericFilterBean
-import org.springframework.context.ApplicationEventPublisherAware
-import org.springframework.context.ApplicationEventPublisher
+import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
-import org.springframework.security.core.context.SecurityContextHolder
 import javax.servlet.http.HttpServletRequest
-import org.springframework.security.core.Authentication
-import org.springframework.security.authentication.AuthenticationManager
 import javax.servlet.http.HttpServletResponse
+
+import org.springframework.context.ApplicationEventPublisher
+import org.springframework.context.ApplicationEventPublisherAware
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.filter.GenericFilterBean
 
 /**
  * TODO
@@ -24,10 +26,10 @@ class VKontakteAuthCookieTransparentFilter extends GenericFilterBean implements 
     VKontakteAuthUtils vkontakteAuthUtils
     AuthenticationManager authenticationManager
     String logoutUrl = '/j_spring_security_logout'
-    String forceLoginParameter = null
+    String forceLoginParameter
     String filterProcessUrl
 
-    void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, javax.servlet.FilterChain chain) {
+    void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) {
         HttpServletRequest request = servletRequest
         HttpServletResponse response = servletResponse
         String url = request.requestURI.substring(request.contextPath.length())
@@ -84,12 +86,10 @@ class VKontakteAuthCookieTransparentFilter extends GenericFilterBean implements 
                 logger.debug("No auth cookie")
             }
         } else {
-            logger.debug("SecurityContextHolder not populated with VKontakteAuthToken token, as it already contained: $SecurityContextHolder.context.authentication");
+            logger.debug("SecurityContextHolder not populated with VKontakteAuthToken token, as it already contained: $SecurityContextHolder.context.authentication")
         }
 
         //when not authenticated, dont have auth cookie or bad credentials
         chain.doFilter(request, response)
     }
-
-
 }

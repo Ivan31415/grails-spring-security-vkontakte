@@ -1,13 +1,16 @@
 package com.gramant.grails.springsecurity.vkontakte
 
-import org.springframework.security.web.authentication.logout.LogoutHandler
+import java.util.regex.Matcher
+
+import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.springframework.security.core.Authentication
-import javax.servlet.http.Cookie
-import org.apache.log4j.Logger
-import java.util.regex.Matcher
+
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.security.core.Authentication
+import org.springframework.security.web.authentication.logout.LogoutHandler
 
 /**
  *
@@ -16,7 +19,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
  */
 class VKontakteAuthCookieLogoutHandler implements LogoutHandler {
 
-    private static final Logger logger = Logger.getLogger(this)
+    private static final Logger logger = LoggerFactory.getLogger(this)
 
     VKontakteAuthUtils vkontakteAuthUtils
 
@@ -24,7 +27,7 @@ class VKontakteAuthCookieLogoutHandler implements LogoutHandler {
                 HttpServletResponse httpServletResponse,
                 Authentication authentication) {
 
-        String baseDomain = null
+        String baseDomain
 
         List<Cookie> cookies = httpServletRequest.cookies.findAll { Cookie it ->
             //VKontakteAuthUtils.log.debug("Cookier $it.name, expected $cookieName")

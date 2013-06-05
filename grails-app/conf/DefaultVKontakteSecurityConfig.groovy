@@ -1,6 +1,6 @@
 security {
 
-	vkontakte {
+    vkontakte {
 
         appId = "Invalid"
         secret = 'Invalid'
@@ -40,6 +40,5 @@ security {
 
         beans {
         }
-
     }
 }

@@ -7,3 +7,5 @@
 target
 *.log
 /target
+web-app
+plugin.xml

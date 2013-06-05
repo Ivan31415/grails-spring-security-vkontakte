@@ -1,14 +1,18 @@
 package com.gramant.grails.springsecurity.vkontakte
 
-import org.apache.log4j.Logger
-import javax.servlet.http.HttpServletRequest
-import org.springframework.security.authentication.BadCredentialsException
-import java.util.concurrent.TimeUnit
-import org.apache.http.client.utils.URLEncodedUtils
-import java.nio.charset.Charset
-import org.apache.http.NameValuePair
 import grails.converters.JSON
+
+import java.nio.charset.Charset
+import java.util.concurrent.TimeUnit
+
+import javax.servlet.http.HttpServletRequest
+
+import org.apache.http.NameValuePair
+import org.apache.http.client.utils.URLEncodedUtils
 import org.codehaus.groovy.grails.web.json.JSONObject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.security.authentication.BadCredentialsException
 
 /**
  * TODO
@@ -18,7 +22,7 @@ import org.codehaus.groovy.grails.web.json.JSONObject
  */
 class VKontakteAuthUtils {
 
-    private static def log = Logger.getLogger(this)
+    private static final Logger log = LoggerFactory.getLogger(this)
 
     String apiKey
     String secret
@@ -69,7 +73,7 @@ class VKontakteAuthUtils {
      * @param request
      * @return cookie value
      */
-    public String getAuthCookie(HttpServletRequest request) {
+    String getAuthCookie(HttpServletRequest request) {
         String cookieName = "vk_app_" + applicationId
         String cookieHeader = request.getHeader("cookie")
         log.debug "cookieHeader = $cookieHeader"
@@ -79,7 +83,7 @@ class VKontakteAuthUtils {
         }
 
         // Get cookie header
-        String vkAppValue = null
+        String vkAppValue
         // parse several cookies
         String[] cookiesArray = cookieHeader.split("; ")
         for (String cookie : cookiesArray) {
@@ -96,8 +100,6 @@ class VKontakteAuthUtils {
         // get the cookie value
         return vkAppValue.substring((cookieName + "=").length())
     }
-
-
 
     // unsupported
     VKontakteAccessToken refreshAccessToken(String existingAccessToken) {
@@ -135,7 +137,7 @@ class VKontakteAuthUtils {
         }
     }
 
-    public boolean verifySign(String sign, String payload) {
+    boolean verifySign(String sign, String payload) {
 //        String signer = 'HmacMD5'
 //        //log.debug("Secret $secret")
 //        SecretKeySpec sks = new SecretKeySpec(secret.getBytes(), signer)
@@ -151,10 +153,9 @@ class VKontakteAuthUtils {
 //            //log.info("My: ${new String(Base64.encodeBase64(my, false))}, their: ${new String(Base64.encodeBase64(their))} / $sign")
 //            return Arrays.equals(my, their)
 //        } catch (Exception e) {
-//            log.error("Can't validate signature", e);
-//            return false;
+//            log.error("Can't validate signature", e)
+//            return false
 //        }
         return payload.encodeAsMD5() == sign
-
     }
 }
