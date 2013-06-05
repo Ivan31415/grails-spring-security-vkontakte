@@ -1,16 +1,18 @@
 package com.gramant.grails.springsecurity.vkontakte
 
+import java.util.concurrent.TimeUnit
+
+import org.codehaus.groovy.grails.commons.GrailsApplication
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.InitializingBean
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.GrantedAuthorityImpl
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import org.springframework.beans.factory.InitializingBean
-import org.springframework.context.ApplicationContextAware
-import org.springframework.context.ApplicationContext
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.plugins.support.aware.GrailsApplicationAware
-import org.apache.log4j.Logger
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.concurrent.TimeUnit
 
 /**
  * TODO
@@ -20,7 +22,7 @@ import java.util.concurrent.TimeUnit
  */
 class DefaultVKontakteAuthDao implements VKontakteAuthDao<Object>, InitializingBean, ApplicationContextAware, GrailsApplicationAware {
 
-    private static def log = Logger.getLogger(this)
+    private static final Logger log = LoggerFactory.getLogger(this)
 
     GrailsApplication grailsApplication
     ApplicationContext applicationContext
@@ -53,7 +55,7 @@ class DefaultVKontakteAuthDao implements VKontakteAuthDao<Object>, InitializingB
         if (vkontakteAuthService && vkontakteAuthService.respondsTo('findUser', Long)) {
             return vkontakteAuthService.findUser(uid)
         }
-		Class<?> User = grailsApplication.getDomainClass(domainClassName)?.clazz
+        Class<?> User = grailsApplication.getDomainClass(domainClassName)?.clazz
         if (!User) {
             log.error("Can't find domain: $domainClassName")
             return null
@@ -148,7 +150,6 @@ class DefaultVKontakteAuthDao implements VKontakteAuthDao<Object>, InitializingB
                     }
                 }
             }
-
         }
 
         return user

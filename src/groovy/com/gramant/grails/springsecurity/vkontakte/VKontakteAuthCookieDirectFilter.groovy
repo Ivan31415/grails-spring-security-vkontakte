@@ -1,13 +1,12 @@
 package com.gramant.grails.springsecurity.vkontakte
 
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
-import org.springframework.security.core.Authentication
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.Cookie
+
+import org.springframework.security.core.Authentication
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
 
 /**
- * 
  * @author Igor Artamonov (http://igorartamonov.com)
  * @since 05.07.12
  */

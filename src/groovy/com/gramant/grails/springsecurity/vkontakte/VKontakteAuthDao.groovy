@@ -2,7 +2,7 @@ package com.gramant.grails.springsecurity.vkontakte
 
 import org.springframework.security.core.GrantedAuthority
 
-public interface VKontakteAuthDao<F> {
+interface VKontakteAuthDao<F> {
 
     /**
      * Tries to load app user for VKontakte user

@@ -8,26 +8,20 @@ Requirements
 ------------
 
  * grails 2.0+
- * spring-security-core plugin 1.1+
+ * spring-security-core plugin 1.2.7.3+
 
 How to install
 --------------
 
-Install spring-security-plugin:
+Install this plugin by adding a dependency to your BuildConfig.groovy:
 
-```
-grails install-plugin spring-security-core
-```
+    plugins {
+       ...
+       compile ':spring-security-vkontakte:<current plugin version>'
+    }
 
-Configure spring-security
+Configure spring-security-core by running the s2-quickstart script, then this plugin by running the s2-init-vkontakte script.
 
-And then install this plugin:
-
-```
-grails install-plugin spring-security-vkontakte
-```
-
-Done
 
 How to use
 ----------

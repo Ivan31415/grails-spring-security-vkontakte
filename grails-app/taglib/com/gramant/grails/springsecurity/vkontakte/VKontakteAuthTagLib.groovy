@@ -8,15 +8,14 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
  * @since 31.03.11
  * @author Igor Artamonov (http://igorartamonov.com)
  */
-
 class VKontakteAuthTagLib {
 
-	static namespace = 'vkontakteAuth'
+    static namespace = 'vkontakteAuth'
 
     static final String MARKER = 'com.gramant.grails.springsecurity.vkontakte.VKontakteAuthTagLib#init'
 
-	/** Dependency injection for springSecurityService. */
-	def springSecurityService
+    /** Dependency injection for springSecurityService. */
+    def springSecurityService
 
     def init = { attrs, body ->
         Boolean init = request.getAttribute(MARKER)
@@ -75,7 +74,7 @@ class VKontakteAuthTagLib {
         }
     }
 
-	def connect = { attrs, body ->
+    def connect = { attrs, body ->
         def conf = SpringSecurityUtils.securityConfig.vkontakte
 
         if (attrs.skipInit != 'false') {
@@ -126,8 +125,5 @@ class VKontakteAuthTagLib {
         VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: ${onAuth}});
         </script>
         """
-
     }
-
-
 }

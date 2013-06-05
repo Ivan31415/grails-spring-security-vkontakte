@@ -1,19 +1,19 @@
 package com.gramant.grails.springsecurity.vkontakte
 
-import org.springframework.security.core.Authentication
-import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.GrantedAuthority
-
-import org.springframework.security.core.userdetails.User
-import org.apache.log4j.Logger
-import org.springframework.context.ApplicationContext
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
+import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 
-public class VKontakteAuthProvider implements AuthenticationProvider, InitializingBean, ApplicationContextAware {
+class VKontakteAuthProvider implements AuthenticationProvider, InitializingBean, ApplicationContextAware {
 
-    private static def log = Logger.getLogger(this)
+    private static final Logger log = LoggerFactory.getLogger(this)
 
     VKontakteAuthDao vkontakteAuthDao
     VKontakteAuthUtils vkontakteAuthUtils
@@ -31,12 +31,11 @@ public class VKontakteAuthProvider implements AuthenticationProvider, Initializi
      * @param authentication
      * @return
      */
-    public Authentication authenticate(Authentication authentication) {
+    Authentication authenticate(Authentication authentication) {
         VKontakteAuthToken token = authentication
 
         def user = vkontakteAuthDao.findUser(token.uid as Long)
         boolean justCreated = false
-
 
         if (user == null) {
 
@@ -104,10 +103,10 @@ public class VKontakteAuthProvider implements AuthenticationProvider, Initializi
         return token
     }
 
-    public boolean supports(Class<? extends Object> authentication) {
-        return VKontakteAuthToken.isAssignableFrom(authentication);
+    boolean supports(Class<? extends Object> authentication) {
+        return VKontakteAuthToken.isAssignableFrom(authentication)
     }
-	
+
     protected UserDetails createUserDetails(Object vkUserUser, String secret) {
         if (vkontakteAuthService && vkontakteAuthService.respondsTo('createUserDetails', vkUserUser.class)) {
             return vkontakteAuthService.createUserDetails(vkUserUser)
